@@ -14,7 +14,6 @@
         .then(registration => {
           console.log('Service Worker registered successfully.');
   
-          // Zgoda na powiadomienia
           askNotificationPermission().then(() => {
             subscribeUserToPush(registration);
           });
@@ -23,7 +22,6 @@
     }
   };
   
-  // Pytamy użytkownika o zgodę
   function askNotificationPermission() {
     return Notification.requestPermission().then(permission => {
       if (permission !== 'granted') {
@@ -31,8 +29,7 @@
       }
     });
   }
-  
-  // Subskrybujemy użytkownika do Web Push
+ 
   function subscribeUserToPush(registration) {
     const vapidPublicKey = 'BLSirykAvybJ-FUyEEKKwePL09f7dvd9tupui8s0DNxdNPAGATi44VqNecwsvb0OQPqTgozfqMO88kiTpXx2Oi4';
     const convertedVapidKey = urlBase64ToUint8Array(vapidPublicKey);
@@ -44,7 +41,6 @@
     .then(subscription => {
       console.log('User is subscribed:', subscription);
   
-      // Wysyłamy subskrypcję na backend
       return fetch('/subscribe', {
         method: 'POST',
         body: JSON.stringify(subscription),
