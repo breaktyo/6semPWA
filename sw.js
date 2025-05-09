@@ -49,3 +49,17 @@ self.addEventListener('activate', (event) => {
     )
   );
 });
+
+self.addEventListener('push', function(event) {
+  const data = event.data.json();
+  console.log('Push Received:', data);
+
+  const options = {
+    body: data.body,
+    icon: 'images\manifest-icon-192.maskable.png'
+  };
+
+  event.waitUntil(
+    self.registration.showNotification(data.title, options)
+  );
+});
